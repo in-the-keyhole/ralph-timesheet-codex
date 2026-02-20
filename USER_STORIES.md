@@ -15,7 +15,7 @@ Mark a story `[x]` when it is fully implemented and tests pass.
 
 ## Phase 2: Data Model & Persistence
 
-- [ ] **S03 — Create Employee entity and repository**
+- [x] **S03 — Create Employee entity and repository**
   Create the Employee JPA entity (id, firstName, lastName, email, department) in the api project. Create a Spring Data JPA repository. Add a data.sql seed file with 3 sample employees. Write a repository integration test that verifies the seed data loads.
 
 - [ ] **S04 — Create Project entity and repository**
