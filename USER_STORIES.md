@@ -29,7 +29,7 @@ Mark a story `[x]` when it is fully implemented and tests pass.
 - [x] **S06 — Employee REST endpoints**
   Create EmployeeController with endpoints: GET /api/v1/employees, GET /api/v1/employees/{id}, POST /api/v1/employees, PUT /api/v1/employees/{id}. Use DTOs for request/response. Add input validation. Write controller integration tests for each endpoint.
 
-- [ ] **S07 — Project REST endpoints**
+- [x] **S07 — Project REST endpoints**
   Create ProjectController with endpoints: GET /api/v1/projects (optionally filter by active), GET /api/v1/projects/{id}, POST /api/v1/projects, PUT /api/v1/projects/{id}. Use DTOs, add validation. Write controller integration tests.
 
 - [ ] **S08 — TimeEntry REST endpoints**
