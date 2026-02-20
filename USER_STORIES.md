@@ -60,7 +60,7 @@ Mark a story `[x]` when it is fully implemented and tests pass.
 - [x] **S15 — Time entry list page**
   Build a Time Entries page that shows entries in a table with columns: date, employee name, project name, hours, description. Add filters for employee and date range. Include edit and delete actions per row.
 
-- [ ] **S16 — Dashboard with weekly summary**
+- [x] **S16 — Dashboard with weekly summary**
   Build a Dashboard page showing the current week's time entries for a selected employee. Display a summary table with rows per day and columns per project, showing hours. Show daily totals and a weekly grand total.
 
 ## Phase 6: Polish
