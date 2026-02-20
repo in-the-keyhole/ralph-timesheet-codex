@@ -21,6 +21,13 @@ vi.mock('./api/projects', () => ({
   ]),
 }))
 
+vi.mock('./api/timeEntries', () => ({
+  getTimeEntries: vi.fn().mockResolvedValue([]),
+  createTimeEntry: vi.fn(),
+  updateTimeEntry: vi.fn(),
+  deleteTimeEntry: vi.fn(),
+}))
+
 const routes = [
   {
     path: '/',

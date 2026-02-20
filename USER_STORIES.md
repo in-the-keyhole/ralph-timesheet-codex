@@ -57,7 +57,7 @@ Mark a story `[x]` when it is fully implemented and tests pass.
 - [x] **S14 — Time entry form**
   Build a Time Entry form with fields: employee (dropdown), project (dropdown), date (date picker), hours (number input with 0.25 step), description (text). On submit, POST to the API. Show validation errors from the backend. Clear the form on success.
 
-- [ ] **S15 — Time entry list page**
+- [x] **S15 — Time entry list page**
   Build a Time Entries page that shows entries in a table with columns: date, employee name, project name, hours, description. Add filters for employee and date range. Include edit and delete actions per row.
 
 - [ ] **S16 — Dashboard with weekly summary**

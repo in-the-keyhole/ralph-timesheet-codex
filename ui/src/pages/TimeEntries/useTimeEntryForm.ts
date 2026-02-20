@@ -27,6 +27,10 @@ interface UseTimeEntryFormResult {
   submitForm: () => Promise<void>
 }
 
+interface UseTimeEntryFormOptions {
+  onSuccess?: () => void
+}
+
 const createInitialFormValues = (): TimeEntryFormValues => ({
   employeeId: '',
   projectId: '',
@@ -55,7 +59,7 @@ const getErrorMessage = (error: unknown): string => {
   return 'An unexpected error occurred.'
 }
 
-const useTimeEntryForm = (): UseTimeEntryFormResult => {
+const useTimeEntryForm = ({ onSuccess }: UseTimeEntryFormOptions = {}): UseTimeEntryFormResult => {
   const [formValues, setFormValues] = useState<TimeEntryFormValues>(createInitialFormValues)
   const [employees, setEmployees] = useState<Employee[]>([])
   const [projects, setProjects] = useState<Project[]>([])
@@ -134,6 +138,7 @@ const useTimeEntryForm = (): UseTimeEntryFormResult => {
       await createTimeEntry(payload)
       setFormValues(createInitialFormValues())
       setSubmissionSuccess('Time entry recorded successfully.')
+      onSuccess?.()
     } catch (error) {
       setSubmissionError(getErrorMessage(error))
     } finally {
@@ -158,3 +163,4 @@ const useTimeEntryForm = (): UseTimeEntryFormResult => {
 }
 
 export default useTimeEntryForm
+export type { TimeEntryFormValues }
