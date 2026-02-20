@@ -9,6 +9,7 @@ import {
   ProjectsPage,
   TimeEntriesPage,
 } from './pages'
+import { ToastProvider } from './components/ToastProvider'
 vi.mock('./api/employees', () => ({
   getEmployees: vi.fn().mockResolvedValue([
     { id: 1, firstName: 'Avery', lastName: 'Stone', email: 'avery@example.com', department: 'Product' },
@@ -44,7 +45,11 @@ const routes = [
 describe('App shell navigation', () => {
   it('renders nav links and navigates between placeholder pages', async () => {
     const router = createMemoryRouter(routes, { initialEntries: ['/'] })
-    render(<RouterProvider router={router} />)
+    render(
+      <ToastProvider>
+        <RouterProvider router={router} />
+      </ToastProvider>,
+    )
 
     const navItems = ['Dashboard', 'Time Entries', 'Employees', 'Projects']
     navItems.forEach((label) => {

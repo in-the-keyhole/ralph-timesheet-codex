@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import axios from 'axios'
 import { Employee, getEmployees } from '../../api/employees'
+import { getApiErrorMessage } from '../../api/error'
 import { TimeEntry, getTimeEntries } from '../../api/timeEntries'
 
 interface ProjectColumn {
@@ -96,26 +96,6 @@ const formatWeekRange = (start: Date, end: Date): string => {
   }
 
   return `${startLabel}, ${start.getFullYear()} – ${endLabel}, ${end.getFullYear()}`
-}
-
-const getErrorMessage = (error: unknown): string => {
-  if (axios.isAxiosError<{ message?: string; errors?: string[] }>(error)) {
-    const data = error.response?.data
-
-    if (data?.message) {
-      return data.message
-    }
-
-    if (Array.isArray(data?.errors) && data.errors.length > 0) {
-      return data.errors.join(' ')
-    }
-  }
-
-  if (error instanceof Error) {
-    return error.message
-  }
-
-  return 'An unexpected error occurred.'
 }
 
 const buildWeeklySummary = (entries: TimeEntry[], weekDays: WeekDay[]): WeeklySummary => {
@@ -216,7 +196,7 @@ const useDashboard = (): UseDashboardResult => {
     } catch (error) {
       setEmployees([])
       setSelectedEmployeeId('')
-      setEmployeesError(getErrorMessage(error))
+      setEmployeesError(getApiErrorMessage(error))
     } finally {
       setEmployeesLoading(false)
     }
@@ -239,9 +219,9 @@ const useDashboard = (): UseDashboardResult => {
           endDate: weekEndIso,
         })
         setSummary(buildWeeklySummary(entries, weekDays))
-      } catch (error) {
-        setSummary(null)
-        setSummaryError(getErrorMessage(error))
+    } catch (error) {
+      setSummary(null)
+      setSummaryError(getApiErrorMessage(error))
       } finally {
         setSummaryLoading(false)
       }

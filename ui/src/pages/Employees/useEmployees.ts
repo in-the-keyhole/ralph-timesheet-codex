@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Employee, getEmployees } from '../../api/employees'
+import { buildUserFriendlyError } from '../../api/error'
 
 interface UseEmployeesResult {
   employees: Employee[]
@@ -20,10 +21,8 @@ const useEmployees = (): UseEmployeesResult => {
     try {
       const data = await getEmployees()
       setEmployees(data)
-    } catch (err) {
-      const message =
-        err instanceof Error ? err.message : 'An unexpected error occurred while loading employees.'
-      setError(message)
+    } catch (error) {
+      setError(buildUserFriendlyError('Unable to load employees.', error))
     } finally {
       setLoading(false)
     }

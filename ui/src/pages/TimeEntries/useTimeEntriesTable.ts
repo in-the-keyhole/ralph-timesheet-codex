@@ -1,5 +1,4 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react'
-import axios from 'axios'
 import {
   TimeEntry,
   TimeEntryFilters,
@@ -8,6 +7,8 @@ import {
   getTimeEntries,
   updateTimeEntry,
 } from '../../api/timeEntries'
+import { buildUserFriendlyError, getApiErrorMessage } from '../../api/error'
+import { useToast } from '../../components/ToastProvider'
 
 interface TimeEntryFilterValues {
   employeeId: string
@@ -56,26 +57,6 @@ const buildFiltersPayload = (values: TimeEntryFilterValues): TimeEntryFilters | 
   return Object.keys(payload).length > 0 ? payload : undefined
 }
 
-const getErrorMessage = (error: unknown): string => {
-  if (axios.isAxiosError<{ message?: string; errors?: string[] }>(error)) {
-    const data = error.response?.data
-
-    if (data?.message) {
-      return data.message
-    }
-
-    if (Array.isArray(data?.errors) && data.errors.length > 0) {
-      return data.errors.join(' ')
-    }
-  }
-
-  if (error instanceof Error) {
-    return error.message
-  }
-
-  return 'An unexpected error occurred.'
-}
-
 const useTimeEntriesTable = (): UseTimeEntriesTableResult => {
   const [entries, setEntries] = useState<TimeEntry[]>([])
   const [loadingEntries, setLoadingEntries] = useState(true)
@@ -85,6 +66,7 @@ const useTimeEntriesTable = (): UseTimeEntriesTableResult => {
   const [deletingEntryId, setDeletingEntryId] = useState<number | null>(null)
   const [savingEntryId, setSavingEntryId] = useState<number | null>(null)
   const [actionError, setActionError] = useState<string | null>(null)
+  const { showSuccess } = useToast()
 
   const loadEntries = useCallback(async () => {
     setLoadingEntries(true)
@@ -94,7 +76,7 @@ const useTimeEntriesTable = (): UseTimeEntriesTableResult => {
       const data = await getTimeEntries(buildFiltersPayload(appliedFilters))
       setEntries(data)
     } catch (error) {
-      setEntriesError(`Unable to load time entries. ${getErrorMessage(error)}`)
+      setEntriesError(buildUserFriendlyError('Unable to load time entries.', error))
     } finally {
       setLoadingEntries(false)
     }
@@ -132,8 +114,9 @@ const useTimeEntriesTable = (): UseTimeEntriesTableResult => {
     try {
       await deleteTimeEntry(id)
       await loadEntries()
+      showSuccess('Time entry deleted successfully.')
     } catch (error) {
-      setActionError(`Unable to delete time entry. ${getErrorMessage(error)}`)
+      setActionError(buildUserFriendlyError('Unable to delete time entry.', error))
     } finally {
       setDeletingEntryId(null)
     }
@@ -146,10 +129,11 @@ const useTimeEntriesTable = (): UseTimeEntriesTableResult => {
     try {
       await updateTimeEntry(id, payload)
       await loadEntries()
+      showSuccess('Time entry updated successfully.')
     } catch (error) {
-      const message = `Unable to update time entry. ${getErrorMessage(error)}`
+      const message = buildUserFriendlyError('Unable to update time entry.', error)
       setActionError(message)
-      throw new Error(message)
+      throw new Error(getApiErrorMessage(error))
     } finally {
       setSavingEntryId(null)
     }

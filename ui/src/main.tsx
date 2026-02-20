@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
+import ErrorBoundary from './components/ErrorBoundary'
+import { ToastProvider } from './components/ToastProvider'
 import {
   DashboardPage,
   EmployeesPage,
@@ -25,6 +27,10 @@ const router = createBrowserRouter([
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <ErrorBoundary>
+      <ToastProvider>
+        <RouterProvider router={router} />
+      </ToastProvider>
+    </ErrorBoundary>
   </StrictMode>,
 )

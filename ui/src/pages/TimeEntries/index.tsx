@@ -57,7 +57,6 @@ const TimeEntriesPage = () => {
     projectsError,
     submitting,
     submissionError,
-    submissionSuccess,
     handleFieldChange,
     submitForm,
   } = useTimeEntryForm({ onSuccess: refreshEntries })
@@ -209,12 +208,6 @@ const TimeEntriesPage = () => {
               </Alert>
             )}
 
-            {submissionSuccess && (
-              <Alert severity="success" role="status">
-                {submissionSuccess}
-              </Alert>
-            )}
-
             {optionsLoading && (
               <Box display="flex" alignItems="center" gap={1} aria-live="polite">
                 <CircularProgress size={18} aria-label="Loading form data" />
@@ -317,7 +310,12 @@ const TimeEntriesPage = () => {
             </Grid>
 
             <Box display="flex" justifyContent="flex-end">
-              <Button type="submit" variant="contained" disabled={isSubmitDisabled}>
+              <Button
+                type="submit"
+                variant="contained"
+                disabled={isSubmitDisabled}
+                startIcon={submitting ? <CircularProgress size={16} color="inherit" /> : undefined}
+              >
                 {submitting ? 'Saving entry...' : 'Log time entry'}
               </Button>
             </Box>
@@ -462,6 +460,9 @@ const TimeEntriesPage = () => {
                                 onClick={() => handleDeleteClick(entry.id)}
                                 disabled={isDeleting || isUpdating}
                                 aria-label={`Delete time entry for ${entry.projectName} on ${entry.date}`}
+                                startIcon={
+                                  isDeleting ? <CircularProgress size={14} color="inherit" /> : undefined
+                                }
                               >
                                 {isDeleting ? 'Deleting…' : 'Delete'}
                               </Button>
@@ -596,6 +597,11 @@ const TimeEntriesPage = () => {
               type="submit"
               variant="contained"
               disabled={!editDialog || savingEntryId === editDialog?.entryId}
+              startIcon={
+                savingEntryId === editDialog?.entryId ? (
+                  <CircularProgress size={16} color="inherit" />
+                ) : undefined
+              }
             >
               {savingEntryId === editDialog?.entryId ? 'Saving…' : 'Save changes'}
             </Button>

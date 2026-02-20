@@ -1,8 +1,9 @@
 import { ChangeEvent, useEffect, useState } from 'react'
-import axios from 'axios'
 import { Employee, getEmployees } from '../../api/employees'
+import { buildUserFriendlyError } from '../../api/error'
 import { Project, getProjects } from '../../api/projects'
 import { TimeEntryRequest, createTimeEntry } from '../../api/timeEntries'
+import { useToast } from '../../components/ToastProvider'
 
 interface TimeEntryFormValues {
   employeeId: string
@@ -22,7 +23,6 @@ interface UseTimeEntryFormResult {
   projectsError: string | null
   submitting: boolean
   submissionError: string | null
-  submissionSuccess: string | null
   handleFieldChange: (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void
   submitForm: () => Promise<void>
 }
@@ -39,26 +39,6 @@ const createInitialFormValues = (): TimeEntryFormValues => ({
   description: '',
 })
 
-const getErrorMessage = (error: unknown): string => {
-  if (axios.isAxiosError<{ message?: string; errors?: string[] }>(error)) {
-    const data = error.response?.data
-
-    if (data?.message) {
-      return data.message
-    }
-
-    if (Array.isArray(data?.errors) && data.errors.length > 0) {
-      return data.errors.join(' ')
-    }
-  }
-
-  if (error instanceof Error) {
-    return error.message
-  }
-
-  return 'An unexpected error occurred.'
-}
-
 const useTimeEntryForm = ({ onSuccess }: UseTimeEntryFormOptions = {}): UseTimeEntryFormResult => {
   const [formValues, setFormValues] = useState<TimeEntryFormValues>(createInitialFormValues)
   const [employees, setEmployees] = useState<Employee[]>([])
@@ -69,7 +49,7 @@ const useTimeEntryForm = ({ onSuccess }: UseTimeEntryFormOptions = {}): UseTimeE
   const [projectsError, setProjectsError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
   const [submissionError, setSubmissionError] = useState<string | null>(null)
-  const [submissionSuccess, setSubmissionSuccess] = useState<string | null>(null)
+  const { showSuccess } = useToast()
 
   useEffect(() => {
     const loadEmployees = async () => {
@@ -79,7 +59,7 @@ const useTimeEntryForm = ({ onSuccess }: UseTimeEntryFormOptions = {}): UseTimeE
         const data = await getEmployees()
         setEmployees(data)
       } catch (error) {
-        setEmployeesError(`Unable to load employees. ${getErrorMessage(error)}`)
+        setEmployeesError(buildUserFriendlyError('Unable to load employees.', error))
       } finally {
         setLoadingEmployees(false)
       }
@@ -96,7 +76,7 @@ const useTimeEntryForm = ({ onSuccess }: UseTimeEntryFormOptions = {}): UseTimeE
         const data = await getProjects()
         setProjects(data)
       } catch (error) {
-        setProjectsError(`Unable to load projects. ${getErrorMessage(error)}`)
+        setProjectsError(buildUserFriendlyError('Unable to load projects.', error))
       } finally {
         setLoadingProjects(false)
       }
@@ -116,15 +96,11 @@ const useTimeEntryForm = ({ onSuccess }: UseTimeEntryFormOptions = {}): UseTimeE
       setSubmissionError(null)
     }
 
-    if (submissionSuccess) {
-      setSubmissionSuccess(null)
-    }
   }
 
   const submitForm = async () => {
     setSubmitting(true)
     setSubmissionError(null)
-    setSubmissionSuccess(null)
 
     const payload: TimeEntryRequest = {
       employeeId: Number(formValues.employeeId),
@@ -137,10 +113,10 @@ const useTimeEntryForm = ({ onSuccess }: UseTimeEntryFormOptions = {}): UseTimeE
     try {
       await createTimeEntry(payload)
       setFormValues(createInitialFormValues())
-      setSubmissionSuccess('Time entry recorded successfully.')
+      showSuccess('Time entry recorded successfully.')
       onSuccess?.()
     } catch (error) {
-      setSubmissionError(getErrorMessage(error))
+      setSubmissionError(buildUserFriendlyError('Unable to log time entry.', error))
     } finally {
       setSubmitting(false)
     }
@@ -156,7 +132,6 @@ const useTimeEntryForm = ({ onSuccess }: UseTimeEntryFormOptions = {}): UseTimeE
     projectsError,
     submitting,
     submissionError,
-    submissionSuccess,
     handleFieldChange,
     submitForm,
   }

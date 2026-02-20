@@ -9,6 +9,7 @@ import {
   getTimeEntries,
   updateTimeEntry,
 } from '../../api/timeEntries'
+import { ToastProvider } from '../../components/ToastProvider'
 import TimeEntriesPage from '.'
 
 vi.mock('../../api/employees', () => ({
@@ -73,6 +74,13 @@ describe('TimeEntriesPage', () => {
   const mockDeleteTimeEntry = vi.mocked(deleteTimeEntry)
   const mockUpdateTimeEntry = vi.mocked(updateTimeEntry)
 
+  const renderPage = () =>
+    render(
+      <ToastProvider>
+        <TimeEntriesPage />
+      </ToastProvider>,
+    )
+
   beforeEach(() => {
     vi.clearAllMocks()
     mockGetEmployees.mockResolvedValue(mockEmployees)
@@ -84,7 +92,7 @@ describe('TimeEntriesPage', () => {
   })
 
   it('renders time entries in a table', async () => {
-    render(<TimeEntriesPage />)
+    renderPage()
 
     const table = await screen.findByRole('table', { name: /time entries table/i })
     expect(within(table).getByText(/atlas payroll/i)).toBeInTheDocument()
@@ -92,7 +100,7 @@ describe('TimeEntriesPage', () => {
   })
 
   it('applies filters when submitted', async () => {
-    render(<TimeEntriesPage />)
+    renderPage()
 
     await waitFor(() => expect(mockGetTimeEntries).toHaveBeenCalledTimes(1))
 
@@ -115,7 +123,7 @@ describe('TimeEntriesPage', () => {
   })
 
   it('deletes a time entry and refreshes the table', async () => {
-    render(<TimeEntriesPage />)
+    renderPage()
 
     await waitFor(() => expect(mockGetTimeEntries).toHaveBeenCalledTimes(1))
 
@@ -131,7 +139,7 @@ describe('TimeEntriesPage', () => {
   })
 
   it('edits a time entry with updated values', async () => {
-    render(<TimeEntriesPage />)
+    renderPage()
 
     const editButton = await screen.findByRole('button', {
       name: /edit time entry for atlas payroll on 2024-11-05/i,
@@ -159,7 +167,7 @@ describe('TimeEntriesPage', () => {
   })
 
   it('submits a new time entry, resets the form, and refreshes the table', async () => {
-    render(<TimeEntriesPage />)
+    renderPage()
 
     const createForm = await screen.findByRole('form', { name: /log time entry/i })
     const employeeSelect = createForm.querySelector<HTMLSelectElement>('select[name="employeeId"]')!
@@ -206,7 +214,7 @@ describe('TimeEntriesPage', () => {
       response: { data: { message: 'Hours must be in 15-minute increments.' } },
     })
 
-    render(<TimeEntriesPage />)
+    renderPage()
 
     const createForm = await screen.findByRole('form', { name: /log time entry/i })
     const employeeSelect = createForm.querySelector<HTMLSelectElement>('select[name="employeeId"]')!
@@ -229,7 +237,7 @@ describe('TimeEntriesPage', () => {
   it('renders an error alert when employee data fails to load', async () => {
     mockGetEmployees.mockRejectedValue(new Error('Network unavailable'))
 
-    render(<TimeEntriesPage />)
+    renderPage()
 
     expect(
       await screen.findByText(/unable to load employees/i),

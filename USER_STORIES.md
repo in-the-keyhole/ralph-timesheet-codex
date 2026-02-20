@@ -65,7 +65,7 @@ Mark a story `[x]` when it is fully implemented and tests pass.
 
 ## Phase 6: Polish
 
-- [ ] **S17 — Error handling and loading states**
+- [x] **S17 — Error handling and loading states**
   Add a global error boundary for the React app. Ensure all API calls have proper loading spinners and user-friendly error messages. Add toast notifications for successful create/update/delete operations.
 
 - [ ] **S18 — Final review and cleanup**

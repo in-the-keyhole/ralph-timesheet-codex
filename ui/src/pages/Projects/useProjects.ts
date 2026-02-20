@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Project, getProjects } from '../../api/projects'
+import { buildUserFriendlyError } from '../../api/error'
 
 interface UseProjectsResult {
   projects: Project[]
@@ -20,10 +21,8 @@ const useProjects = (): UseProjectsResult => {
     try {
       const data = await getProjects()
       setProjects(data)
-    } catch (err) {
-      const message =
-        err instanceof Error ? err.message : 'An unexpected error occurred while loading projects.'
-      setError(message)
+    } catch (error) {
+      setError(buildUserFriendlyError('Unable to load projects.', error))
     } finally {
       setLoading(false)
     }
