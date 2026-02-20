@@ -73,5 +73,5 @@ Mark a story `[x]` when it is fully implemented and tests pass.
 
 ## Phase 7: API Documentation
 
-- [ ] **S19 — OpenAPI documentation with Swagger UI**
+- [x] **S19 — OpenAPI documentation with Swagger UI**
   Add the `springdoc-openapi-starter-webmvc-ui` dependency to the API project. Configure OpenAPI metadata (title, description, version) in application properties or a config class. Annotate all controllers with `@Tag` descriptions. Annotate endpoints with `@Operation` summaries and `@ApiResponse` codes where appropriate. Verify Swagger UI is accessible at `/swagger-ui.html` and the OpenAPI spec is available at `/v3/api-docs`. Write an integration test that fetches the `/v3/api-docs` endpoint and asserts it returns valid JSON containing all expected paths (`/api/v1/employees`, `/api/v1/projects`, `/api/v1/time-entries`).
