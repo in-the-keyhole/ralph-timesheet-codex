@@ -35,7 +35,7 @@ Mark a story `[x]` when it is fully implemented and tests pass.
 - [x] **S08 — TimeEntry REST endpoints**
   Create TimeEntryController with endpoints: GET /api/v1/time-entries (filter by employeeId, projectId, date range), GET /api/v1/time-entries/{id}, POST /api/v1/time-entries, PUT /api/v1/time-entries/{id}, DELETE /api/v1/time-entries/{id}. Use DTOs, add validation. Write controller integration tests.
 
-- [ ] **S09 — TimeEntry business validation**
+- [x] **S09 — TimeEntry business validation**
   In the TimeEntry service, enforce: hours must be in 0.25 increments, date cannot be in the future, total hours per employee per day cannot exceed 24. Return clear 400 error messages. Write unit tests for each validation rule.
 
 ## Phase 4: React UI — Core Layout

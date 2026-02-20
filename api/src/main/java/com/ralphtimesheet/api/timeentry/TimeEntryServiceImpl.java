@@ -8,6 +8,7 @@ import com.ralphtimesheet.api.project.ProjectNotFoundException;
 import com.ralphtimesheet.api.project.ProjectRepository;
 import com.ralphtimesheet.api.timeentry.dto.TimeEntryRequest;
 import com.ralphtimesheet.api.timeentry.dto.TimeEntryResponse;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
@@ -19,6 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class TimeEntryServiceImpl implements TimeEntryService {
+
+    private static final BigDecimal QUARTER_HOUR_INCREMENT = new BigDecimal("0.25");
+    private static final BigDecimal DAILY_HOUR_LIMIT = new BigDecimal("24.00");
 
     private final TimeEntryRepository timeEntryRepository;
     private final EmployeeRepository employeeRepository;
@@ -59,6 +63,7 @@ public class TimeEntryServiceImpl implements TimeEntryService {
     public TimeEntryResponse createTimeEntry(TimeEntryRequest request) {
         Employee employee = findEmployee(request.getEmployeeId());
         Project project = findProject(request.getProjectId());
+        validateBusinessRules(request, null);
 
         TimeEntry timeEntry = TimeEntry.builder()
             .employee(employee)
@@ -77,6 +82,7 @@ public class TimeEntryServiceImpl implements TimeEntryService {
         TimeEntry timeEntry = findTimeEntry(id);
         Employee employee = findEmployee(request.getEmployeeId());
         Project project = findProject(request.getProjectId());
+        validateBusinessRules(request, timeEntry.getId());
 
         timeEntry.setEmployee(employee);
         timeEntry.setProject(project);
@@ -107,5 +113,49 @@ public class TimeEntryServiceImpl implements TimeEntryService {
     private Project findProject(Long id) {
         return projectRepository.findById(id)
             .orElseThrow(() -> new ProjectNotFoundException(id));
+    }
+
+    private void validateBusinessRules(TimeEntryRequest request, Long existingEntryId) {
+        validateHoursIncrement(request.getHours());
+        validateDateNotInFuture(request.getDate());
+        validateDailyLimit(request, existingEntryId);
+    }
+
+    private void validateHoursIncrement(BigDecimal hours) {
+        if (hours == null) {
+            return;
+        }
+
+        if (hours.remainder(QUARTER_HOUR_INCREMENT).compareTo(BigDecimal.ZERO) != 0) {
+            throw new TimeEntryValidationException("Hours must be in 15-minute increments.");
+        }
+    }
+
+    private void validateDateNotInFuture(LocalDate date) {
+        if (date != null && date.isAfter(LocalDate.now())) {
+            throw new TimeEntryValidationException("Date cannot be in the future.");
+        }
+    }
+
+    private void validateDailyLimit(TimeEntryRequest request, Long existingEntryId) {
+        if (request.getEmployeeId() == null || request.getDate() == null || request.getHours() == null) {
+            return;
+        }
+
+        List<TimeEntry> entries = timeEntryRepository.findByEmployeeIdAndDateBetween(
+            request.getEmployeeId(),
+            request.getDate(),
+            request.getDate()
+        );
+
+        BigDecimal currentTotal = entries.stream()
+            .filter(entry -> existingEntryId == null || !entry.getId().equals(existingEntryId))
+            .map(TimeEntry::getHours)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal newTotal = currentTotal.add(request.getHours());
+        if (newTotal.compareTo(DAILY_HOUR_LIMIT) > 0) {
+            throw new TimeEntryValidationException("Total hours per day cannot exceed 24.");
+        }
     }
 }
