@@ -1,8 +1,12 @@
-import { ChangeEvent, useEffect, useState } from 'react'
-import { Employee, getEmployees } from '../../api/employees'
+import { useEffect, useState } from 'react'
+import { getEmployees } from '../../api/employees'
 import { buildUserFriendlyError } from '../../api/error'
-import { Project, getProjects } from '../../api/projects'
-import { TimeEntryRequest, createTimeEntry } from '../../api/timeEntries'
+import { getProjects } from '../../api/projects'
+import { createTimeEntry } from '../../api/timeEntries'
+import type { ChangeEvent } from 'react'
+import type { Employee } from '../../api/employees'
+import type { Project } from '../../api/projects'
+import type { TimeEntryRequest } from '../../api/timeEntries'
 import { useToast } from '../../components/ToastProvider'
 
 interface TimeEntryFormValues {

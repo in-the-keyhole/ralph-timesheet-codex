@@ -68,7 +68,7 @@ Mark a story `[x]` when it is fully implemented and tests pass.
 - [x] **S17 — Error handling and loading states**
   Add a global error boundary for the React app. Ensure all API calls have proper loading spinners and user-friendly error messages. Add toast notifications for successful create/update/delete operations.
 
-- [ ] **S18 — Final review and cleanup**
+- [x] **S18 — Final review and cleanup**
   Ensure all backend tests pass (`./mvnw test`). Ensure all frontend tests pass (`npm test`). Ensure the frontend builds without errors (`npm run build`). Remove any unused code or dead imports. Verify the full workflow: create employee, create project, log time entries, view dashboard.
 
 ## Phase 7: API Documentation

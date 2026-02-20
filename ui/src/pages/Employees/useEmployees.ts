@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Employee, getEmployees } from '../../api/employees'
+import { getEmployees } from '../../api/employees'
 import { buildUserFriendlyError } from '../../api/error'
+import type { Employee } from '../../api/employees'
 
 interface UseEmployeesResult {
   employees: Employee[]

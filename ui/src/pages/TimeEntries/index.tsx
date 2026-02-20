@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import {
   Alert,
   Box,
@@ -20,8 +20,9 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { TimeEntryRequest } from '../../api/timeEntries'
-import useTimeEntryForm, { TimeEntryFormValues } from './useTimeEntryForm'
+import type { ChangeEvent, FormEvent } from 'react'
+import type { TimeEntryRequest } from '../../api/timeEntries'
+import useTimeEntryForm, { type TimeEntryFormValues } from './useTimeEntryForm'
 import useTimeEntriesTable from './useTimeEntriesTable'
 
 interface EditDialogState {
@@ -224,7 +225,7 @@ const TimeEntriesPage = () => {
             )}
 
             <Grid container spacing={2}>
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <TextField
                   select
                   SelectProps={{ native: true }}
@@ -245,7 +246,7 @@ const TimeEntriesPage = () => {
                 </TextField>
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <TextField
                   select
                   SelectProps={{ native: true }}
@@ -266,7 +267,7 @@ const TimeEntriesPage = () => {
                 </TextField>
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <TextField
                   type="date"
                   label="Date"
@@ -280,7 +281,7 @@ const TimeEntriesPage = () => {
                 />
               </Grid>
 
-              <Grid item xs={12} md={6}>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <TextField
                   type="number"
                   label="Hours"
@@ -294,7 +295,7 @@ const TimeEntriesPage = () => {
                 />
               </Grid>
 
-              <Grid item xs={12}>
+              <Grid size={12}>
                 <TextField
                   label="Description"
                   name="description"
@@ -342,7 +343,7 @@ const TimeEntriesPage = () => {
               aria-label="Time entry filters"
             >
               <Grid container spacing={2}>
-                <Grid item xs={12} md={4}>
+                <Grid size={{ xs: 12, md: 4 }}>
                   <TextField
                     select
                     SelectProps={{ native: true }}
@@ -361,7 +362,7 @@ const TimeEntriesPage = () => {
                   </TextField>
                 </Grid>
 
-                <Grid item xs={12} md={4}>
+                <Grid size={{ xs: 12, md: 4 }}>
                   <TextField
                     type="date"
                     label="Start date"
@@ -373,7 +374,7 @@ const TimeEntriesPage = () => {
                   />
                 </Grid>
 
-                <Grid item xs={12} md={4}>
+                <Grid size={{ xs: 12, md: 4 }}>
                   <TextField
                     type="date"
                     label="End date"
@@ -504,7 +505,7 @@ const TimeEntriesPage = () => {
               )}
 
               <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 12, md: 6 }}>
                   <TextField
                     select
                     SelectProps={{ native: true }}
@@ -525,7 +526,7 @@ const TimeEntriesPage = () => {
                   </TextField>
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 12, md: 6 }}>
                   <TextField
                     select
                     SelectProps={{ native: true }}
@@ -546,7 +547,7 @@ const TimeEntriesPage = () => {
                   </TextField>
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 12, md: 6 }}>
                   <TextField
                     type="date"
                     label="Date"
@@ -560,7 +561,7 @@ const TimeEntriesPage = () => {
                   />
                 </Grid>
 
-                <Grid item xs={12} md={6}>
+                <Grid size={{ xs: 12, md: 6 }}>
                   <TextField
                     type="number"
                     label="Hours"
@@ -574,7 +575,7 @@ const TimeEntriesPage = () => {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                <Grid size={12}>
                   <TextField
                     label="Description"
                     name="description"

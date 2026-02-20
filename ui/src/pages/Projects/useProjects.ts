@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
-import { Project, getProjects } from '../../api/projects'
+import { getProjects } from '../../api/projects'
 import { buildUserFriendlyError } from '../../api/error'
+import type { Project } from '../../api/projects'
 
 interface UseProjectsResult {
   projects: Project[]

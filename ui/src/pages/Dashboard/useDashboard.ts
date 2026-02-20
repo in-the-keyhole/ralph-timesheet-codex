@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { Employee, getEmployees } from '../../api/employees'
+import { getEmployees } from '../../api/employees'
 import { getApiErrorMessage } from '../../api/error'
-import { TimeEntry, getTimeEntries } from '../../api/timeEntries'
+import { getTimeEntries } from '../../api/timeEntries'
+import type { Employee } from '../../api/employees'
+import type { TimeEntry } from '../../api/timeEntries'
 
 interface ProjectColumn {
   id: number

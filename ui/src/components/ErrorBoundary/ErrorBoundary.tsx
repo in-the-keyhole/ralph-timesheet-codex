@@ -1,5 +1,6 @@
 import { Alert, Box, Button, Paper, Stack, Typography } from '@mui/material'
-import { Component, ErrorInfo, ReactNode } from 'react'
+import { Component } from 'react'
+import type { ErrorInfo, ReactNode } from 'react'
 
 interface ErrorBoundaryProps {
   children: ReactNode

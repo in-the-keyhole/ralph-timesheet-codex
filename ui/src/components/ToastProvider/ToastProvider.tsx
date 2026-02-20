@@ -1,13 +1,13 @@
-import { Alert, AlertColor, Snackbar, SnackbarCloseReason } from '@mui/material'
+import { Alert, Snackbar } from '@mui/material'
+import type { AlertColor, SnackbarCloseReason } from '@mui/material'
 import {
-  ReactNode,
-  SyntheticEvent,
   createContext,
   useCallback,
   useContext,
   useMemo,
   useState,
 } from 'react'
+import type { ReactNode, SyntheticEvent } from 'react'
 
 interface ToastMessage {
   key: number
