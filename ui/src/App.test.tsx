@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { RouterProvider, createMemoryRouter } from 'react-router-dom'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import App from './App'
 import {
   DashboardPage,
@@ -9,6 +9,17 @@ import {
   ProjectsPage,
   TimeEntriesPage,
 } from './pages'
+vi.mock('./api/employees', () => ({
+  getEmployees: vi.fn().mockResolvedValue([
+    { id: 1, firstName: 'Avery', lastName: 'Stone', email: 'avery@example.com', department: 'Product' },
+  ]),
+}))
+
+vi.mock('./api/projects', () => ({
+  getProjects: vi.fn().mockResolvedValue([
+    { id: 101, name: 'Atlas Payroll', code: 'AT-PAY', description: 'Payroll revamp', active: true },
+  ]),
+}))
 
 const routes = [
   {

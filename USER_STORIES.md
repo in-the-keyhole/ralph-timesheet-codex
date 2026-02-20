@@ -54,7 +54,7 @@ Mark a story `[x]` when it is fully implemented and tests pass.
 - [x] **S13 — Project list page**
   Build a Projects page that fetches and displays all projects in a table. Include columns: name, code, description, active status. Add a loading indicator and error state.
 
-- [ ] **S14 — Time entry form**
+- [x] **S14 — Time entry form**
   Build a Time Entry form with fields: employee (dropdown), project (dropdown), date (date picker), hours (number input with 0.25 step), description (text). On submit, POST to the API. Show validation errors from the backend. Clear the form on success.
 
 - [ ] **S15 — Time entry list page**
