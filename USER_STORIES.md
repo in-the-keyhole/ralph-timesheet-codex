@@ -40,7 +40,7 @@ Mark a story `[x]` when it is fully implemented and tests pass.
 
 ## Phase 4: React UI — Core Layout
 
-- [ ] **S10 — App shell and routing**
+- [x] **S10 — App shell and routing**
   Set up React Router with a layout that includes a sidebar or top nav with links to: Dashboard, Time Entries, Employees, Projects. Add a placeholder page component for each route. Verify navigation works.
 
 - [ ] **S11 — API client module**
