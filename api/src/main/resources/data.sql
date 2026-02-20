@@ -17,3 +17,7 @@ INSERT INTO time_entries (id, employee_id, project_id, date, hours, description)
   (2, 1, 2, '2024-06-04', 3.75, 'Mobile onboarding QA session'),
   (3, 2, 2, '2024-06-03', 6.00, 'Sprint planning and coordination'),
   (4, 3, 3, '2024-06-05', 2.25, 'ERP vendor sync');
+
+ALTER TABLE employees ALTER COLUMN id RESTART WITH 4;
+ALTER TABLE projects ALTER COLUMN id RESTART WITH 4;
+ALTER TABLE time_entries ALTER COLUMN id RESTART WITH 5;
