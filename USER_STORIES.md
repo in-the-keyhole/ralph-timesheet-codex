@@ -48,7 +48,7 @@ Mark a story `[x]` when it is fully implemented and tests pass.
 
 ## Phase 5: React UI — Features
 
-- [ ] **S12 — Employee list page**
+- [x] **S12 — Employee list page**
   Build an Employees page that fetches and displays all employees in a table. Include columns: name, email, department. Add a loading indicator and error state.
 
 - [ ] **S13 — Project list page**
