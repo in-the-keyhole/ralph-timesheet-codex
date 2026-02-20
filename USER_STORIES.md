@@ -21,7 +21,7 @@ Mark a story `[x]` when it is fully implemented and tests pass.
 - [x] **S04 — Create Project entity and repository**
   Create the Project JPA entity (id, name, code, description, active). Create a Spring Data JPA repository. Add seed data for 3 sample projects in data.sql. Write a repository integration test.
 
-- [ ] **S05 — Create TimeEntry entity and repository**
+- [x] **S05 — Create TimeEntry entity and repository**
   Create the TimeEntry entity (id, employee ManyToOne, project ManyToOne, date, hours, description). Create a Spring Data JPA repository with custom query methods: findByEmployeeId, findByProjectId, findByEmployeeIdAndDateBetween. Write repository integration tests.
 
 ## Phase 3: REST API
