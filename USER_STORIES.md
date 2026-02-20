@@ -10,7 +10,7 @@ Mark a story `[x]` when it is fully implemented and tests pass.
 - [x] **S01 — Initialize Spring Boot backend**
   Create the `api/` Maven project with Spring Boot 3, Java 21. Include dependencies: spring-boot-starter-web, spring-boot-starter-data-jpa, spring-boot-starter-validation, h2 (runtime), lombok, spring-boot-starter-test. Verify the app starts and the health endpoint responds at `/actuator/health`. Include spring-boot-starter-actuator.
 
-- [ ] **S02 — Initialize React frontend**
+- [x] **S02 — Initialize React frontend**
   Create the `ui/` project using Vite with the React + TypeScript template. Install react-router-dom and axios. Configure Vite to proxy `/api` requests to `http://localhost:8080`. Add a simple App component that renders "Timesheet App". Verify `npm run dev` starts and `npm run build` succeeds.
 
 ## Phase 2: Data Model & Persistence
